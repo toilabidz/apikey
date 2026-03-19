@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyMaster API</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0a0a0f; --card: #111118; --border: #1e1e2e; --accent: #7c3aed; --accent2: #06b6d4; --success: #10b981; --text: #e2e8f0; --muted: #64748b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); padding: 60px 24px; min-height: 100vh; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; margin-bottom: 8px; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 14px; margin-bottom: 48px; }
+  h2 { font-size: 22px; font-weight: 700; margin: 40px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .endpoint {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .ep-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+  .method { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+  .get { background: rgba(16,185,129,.2); color: #10b981; }
+  .post { background: rgba(124,58,237,.2); color: #a78bfa; }
+  .ep-path { font-family: 'Space Mono', monospace; font-size: 14px; }
+  .ep-desc { color: var(--muted); font-size: 13px; margin-left: auto; }
+  .ep-body { padding: 16px 20px; border-top: 1px solid var(--border); background: rgba(0,0,0,.3); }
+  pre { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent2); overflow-x: auto; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; background: rgba(124,58,237,.2); color: #a78bfa; font-family: 'Space Mono', monospace; }
+  .admin-link { display: inline-block; margin-top: 32px; padding: 14px 28px; background: var(--accent); color: white; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Key<span>Master</span></h1>
+  <div class="sub">// API Key Management System — v1.0</div>
+
+  <a href="/admin" class="admin-link">🔐 Vào Admin Panel →</a>
+
+  <h2>Kiểm tra Key (Public)</h2>
+  
+  <div class="endpoint">
+    <div class="ep-header">
+      <span class="method get">GET</span>
+      <span class="ep-path">/api/keys/check?key=YOUR_KEY</span>
+      <span class="ep-desc">Kiểm tra qua query string</span>
+    </div>
+    <div class="ep-body">
+      <pre>curl https://your-domain.vercel.app/api/keys/check?key=KM-XXXX-XXXX-XXXX-XXXX</pre>
+    </div>
+  </div>
+
+  <div class="endpoint">
+    <div class="ep-header">
+      <span class="method post">POST</span>
+      <span class="ep-path">/api/keys/check</span>
+      <span class="ep-desc">Kiểm tra qua body</span>
+    </div>
+    <div class="ep-body">
+      <pre>curl -X POST https://your-domain.vercel.app/api/keys/check \
+  -H "Content-Type: application/json" \
+  -d '{"key": "KM-XXXX-XXXX-XXXX-XXXX"}'</pre>
+    </div>
+  </div>
+
+  <h2>Response mẫu</h2>
+  <div class="endpoint">
+    <div class="ep-header"><span class="badge">Valid ✅</span></div>
+    <div class="ep-body">
+      <pre>{ "success": true, "valid": true, "key": { "plan": "month", "expires_at": "2024-..." } }</pre>
+    </div>
+  </div>
+  <div class="endpoint">
+    <div class="ep-header"><span class="badge">Invalid ❌</span></div>
+    <div class="ep-body">
+      <pre>{ "success": true, "valid": false, "reason": "KEY_EXPIRED", "message": "Key đã hết hạn" }</pre>
+    </div>
+  </div>
+
+  <h2>Admin APIs <span style="color:var(--muted);font-size:14px;">(cần Bearer Token)</span></h2>
+  <div class="endpoint">
+    <div class="ep-header">
+      <span class="method post">POST</span>
+      <span class="ep-path">/api/auth/login</span>
+      <span class="ep-desc">Đăng nhập admin</span>
+    </div>
+    <div class="ep-body">
+      <pre>{ "username": "admin", "password": "Admin@123" }</pre>
+    </div>
+  </div>
+  <div class="endpoint">
+    <div class="ep-header">
+      <span class="method post">POST</span>
+      <span class="ep-path">/api/keys/manage</span>
+      <span class="ep-desc">Tạo key mới</span>
+    </div>
+    <div class="ep-body">
+      <pre>{ "plan": "month", "count": 1, "label": "Premium" }
+plans: day | week | month | year | lifetime | trial</pre>
+    </div>
+  </div>
+
+  <div style="margin-top:60px;color:var(--muted);font-family:'Space Mono',monospace;font-size:12px;">
+    Built with Node.js + Supabase + Vercel + Telegram Bot
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "keymaster",
+  "version": "1.0.0",
+  "description": "API Key Management System with Admin UI, Telegram Bot, Supabase",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "uuid": "^9.0.0",
+    "dayjs": "^1.11.10"
+  }
+}
